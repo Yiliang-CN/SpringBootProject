@@ -1,6 +1,7 @@
 package cn.gxust.springboot.converter;
 
-import cn.gxust.springboot.dto.UserDTO;
+import cn.gxust.springboot.dto.UserCreateDTO;
+import cn.gxust.springboot.dto.UserUpdateDTO;
 import cn.gxust.springboot.entity.User;
 import cn.gxust.springboot.vo.UserVO;
 
@@ -17,11 +18,20 @@ public class UserConverter {
         return userVO;
     }
 
-    public static User convertUserDTO(UserDTO userDTO) {
+    public static User convertUserCreateDTO(UserCreateDTO userCreateDTO) {
         User user = new User();
-        user.setName(userDTO.getName());
-        user.setPassword(userDTO.getPassword());
-        user.setPhone(userDTO.getPhone());
+        user.setPassword(userCreateDTO.getPassword());
+        user.setPhone(userCreateDTO.getPhone());
+        return user;
+    }
+
+    public static User convertUserUpdateDTO(UserUpdateDTO userUpdateDTO) {
+        User user = new User();
+        user.setName(userUpdateDTO.getName());
+        user.setPassword(userUpdateDTO.getPassword());
+        user.setGender(userUpdateDTO.getGender());
+        user.setBirthday(userUpdateDTO.getBirthday());
+        user.setImage(userUpdateDTO.getImage());
         return user;
     }
 }

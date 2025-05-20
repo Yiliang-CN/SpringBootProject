@@ -1,16 +1,17 @@
 package cn.gxust.springboot.service;
 
-import cn.gxust.springboot.dto.UserDTO;
-import cn.gxust.springboot.entity.User;
+import cn.gxust.springboot.dto.UserCreateDTO;
+import cn.gxust.springboot.dto.UserUpdateDTO;
 import cn.gxust.springboot.vo.UserVO;
 
 public interface UserService {
 
     UserVO getUserById(Integer id);
 
-    int addUser(UserDTO userDTO);
+    Integer addUser(UserCreateDTO userCreateDTO);
 
-    void deleteUserById(Integer id);
+    Integer deleteUserById(Integer id);
 
-    UserVO updateUserById(Integer id, String name, String gander, String birthday);
+    UserVO updateUserById(Integer id, UserUpdateDTO userUpdateDTO);
+
 }

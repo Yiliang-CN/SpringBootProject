@@ -1,10 +1,13 @@
 package cn.gxust.springboot.controller;
 
 import cn.gxust.springboot.dto.Response;
-import cn.gxust.springboot.dto.UserDTO;
-import cn.gxust.springboot.entity.User;
+import cn.gxust.springboot.dto.UserCreateDTO;
+import cn.gxust.springboot.dto.UserUpdateDTO;
 import cn.gxust.springboot.service.UserService;
 import cn.gxust.springboot.vo.UserVO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,35 +24,51 @@ public class UserController {
      * @return 用户信息包装类UserVO
      */
     @GetMapping("/user/{id}")
-    public Response<UserVO> getUserById(@PathVariable Integer id) {
-        if (id == null || id < 100000000) {
-            return Response.fail(400, "用户ID不能小于100000000");
-        }
-
-        UserVO user = userService.getUserById(id);
-        if (user == null) {
-            return Response.notFound("用户不存在");
-        }
-
-        return Response.success(user);
+    public Response<UserVO> getUserById(@PathVariable
+                                        @Min(value = 100000000, message = "用户ID长度在9-10之间")
+                                        @Max(value = 2147483647, message = "用户ID长度在9-10之间")
+                                        Integer id) {
+        return Response.success(userService.getUserById(id));
     }
 
-
+    /**
+     * 添加新用户
+     *
+     * @param userCreateDTO 用户信息
+     * @return 用户ID
+     */
     @PostMapping("/user")
-    public Response<Integer> addUser(@RequestBody UserDTO userDTO) {
-        return Response.success(userService.addUser(userDTO));
+    public Response<Integer> addUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+        return Response.success(userService.addUser(userCreateDTO));
     }
 
+    /**
+     * 删除用户
+     *
+     * @param id 用户ID
+     * @return 用户ID
+     */
     @DeleteMapping("/user/{id}")
-    public void deleteUserById(@PathVariable Integer id) {
-        userService.deleteUserById(id);
+    public Response<Integer> deleteUserById(@PathVariable
+                                            @Min(value = 100000000, message = "用户ID长度在9-10之间")
+                                            @Max(value = 2147483647, message = "用户ID长度在9-10之间")
+                                            Integer id) {
+        return Response.success(userService.deleteUserById(id));
     }
 
+    /**
+     * 更新用户信息
+     *
+     * @param id            用户ID
+     * @param userUpdateDTO 用户信息
+     * @return 用户信息包装类UserVO
+     */
     @PutMapping("/user/{id}")
-    public Response<UserVO> updateUserById(@PathVariable Integer id,
-                                           @RequestParam(required = false) String name,
-                                           @RequestParam(required = false) String gander,
-                                           @RequestParam(required = false) String birthday) {
-        return Response.success(userService.updateUserById(id, name, gander, birthday));
+    public Response<UserVO> updateUserById(@PathVariable
+                                           @Min(value = 100000000, message = "用户ID长度在9-10之间")
+                                           @Max(value = 2147483647, message = "用户ID长度在9-10之间")
+                                           Integer id,
+                                           @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        return Response.success(userService.updateUserById(id, userUpdateDTO));
     }
 }

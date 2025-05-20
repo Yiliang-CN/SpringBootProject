@@ -3,15 +3,16 @@ package cn.gxust.springboot.dto;
 public class Response<T> {
     private static final int SUCCESS_CODE = 200;
     private static final String SUCCESS_MESSAGE = "Success";
-    private T data;
+
     private int code;
     private String message;
+    private T data;
 
     public static <T> Response<T> success(T data) {
         Response<T> response = new Response<>();
-        response.setData(data);
         response.setCode(response.SUCCESS_CODE);
         response.setMessage(response.SUCCESS_MESSAGE);
+        response.setData(data);
         return response;
     }
 
@@ -30,14 +31,6 @@ public class Response<T> {
         return fail(404, message);
     }
 
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
     public int getCode() {
         return code;
     }
@@ -52,5 +45,13 @@ public class Response<T> {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }
