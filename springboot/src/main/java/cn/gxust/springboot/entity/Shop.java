@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
-@Table(name = "user")
-@DynamicInsert // 只插入非 NULL 字段 让数据库处理默认值
-public class User {
+@Table(name = "shop")
+@DynamicInsert  // 只插入非 NULL 字段 让数据库处理默认值
+public class Shop {
 
     @Id
     @Column(name = "id")
@@ -14,22 +14,22 @@ public class User {
     private int id;     // 编号id
 
     @Column(name = "name")
-    private String name;    // 用户名
+    private String name;        // 店铺名
 
-    @Column(name = "password")
-    private String password;    // 密码
+    @Column(name = "sales")
+    private int sales;          // 销量
 
-    @Column(name = "gender")
-    private String gender;      // 性别
+    @Column(name = "price")
+    private double price;       // 价格
 
-    @Column(name = "birthday")
-    private String birthday;    // 生日
+    @Column(name = "addr")
+    private String addr;        // 地址
 
     @Column(name = "phone")
     private String phone;       // 手机号
 
     @Column(name = "image")
-    private String image;       // 头像
+    private String image;       // 图片
 
     public int getId() {
         return id;
@@ -47,28 +47,28 @@ public class User {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public int getSales() {
+        return sales;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSales(int sales) {
+        this.sales = sales;
     }
 
-    public String getGender() {
-        return gender;
+    public double getPrice() {
+        return price;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getAddr() {
+        return addr;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setAddr(String addr) {
+        this.addr = addr;
     }
 
     public String getPhone() {
@@ -86,6 +86,4 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
-
-
 }

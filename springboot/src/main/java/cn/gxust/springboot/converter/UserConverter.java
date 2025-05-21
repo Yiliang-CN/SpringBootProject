@@ -24,14 +24,4 @@ public class UserConverter {
         user.setPhone(userCreateDTO.getPhone());
         return user;
     }
-
-    public static User convertUserUpdateDTO(UserUpdateDTO userUpdateDTO) {
-        User user = new User();
-        user.setName(userUpdateDTO.getName());
-        user.setPassword(userUpdateDTO.getPassword());
-        user.setGender(userUpdateDTO.getGender());
-        user.setBirthday(userUpdateDTO.getBirthday());
-        user.setImage(userUpdateDTO.getImage());
-        return user;
-    }
 }
