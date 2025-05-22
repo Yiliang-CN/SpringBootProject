@@ -22,7 +22,7 @@ public class ShopController {
      * @param id 店铺ID
      * @return 店铺信息包装类ShopVO
      */
-    @GetMapping("/shop/{id}")
+    @GetMapping("/shops/{id}")
     public Response<ShopVO> getShopById(@PathVariable
                                         @Min(value = 100000000, message = "店铺ID长度在9-10之间")
                                         @Max(value = 2147483647, message = "店铺ID长度在9-10之间")
@@ -30,7 +30,12 @@ public class ShopController {
         return Response.success(shopService.getShopById(id));
     }
 
-    @GetMapping("/shop/all")
+    /**
+     * 获取所有店铺信息
+     *
+     * @return 所有店铺信息包装类List<ShopVO>
+     */
+    @GetMapping("/shops")
     public Response<List<ShopVO>> getAllShop() {
         return Response.success(shopService.getAllShop());
     }

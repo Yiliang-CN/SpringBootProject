@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @DynamicInsert // 只插入非 NULL 字段 让数据库处理默认值
 public class User {
 

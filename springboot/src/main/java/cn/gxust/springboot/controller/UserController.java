@@ -23,7 +23,7 @@ public class UserController {
      * @param id 用户ID
      * @return 用户信息包装类UserVO
      */
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public Response<UserVO> getUserById(@PathVariable
                                         @Min(value = 100000000, message = "用户ID长度在9-10之间")
                                         @Max(value = 2147483647, message = "用户ID长度在9-10之间")
@@ -37,7 +37,7 @@ public class UserController {
      * @param userCreateDTO 用户信息
      * @return 用户ID
      */
-    @PostMapping("/user")
+    @PostMapping("/users")
     public Response<Integer> addUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
         return Response.success(userService.addUser(userCreateDTO));
     }
@@ -48,7 +48,7 @@ public class UserController {
      * @param id 用户ID
      * @return 用户ID
      */
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/users/{id}")
     public Response<Integer> deleteUserById(@PathVariable
                                             @Min(value = 100000000, message = "用户ID长度在9-10之间")
                                             @Max(value = 2147483647, message = "用户ID长度在9-10之间")
@@ -63,7 +63,7 @@ public class UserController {
      * @param userUpdateDTO 用户信息
      * @return 用户信息包装类UserVO
      */
-    @PutMapping("/user/{id}")
+    @PutMapping("/users/{id}")
     public Response<UserVO> updateUserById(@PathVariable
                                            @Min(value = 100000000, message = "用户ID长度在9-10之间")
                                            @Max(value = 2147483647, message = "用户ID长度在9-10之间")

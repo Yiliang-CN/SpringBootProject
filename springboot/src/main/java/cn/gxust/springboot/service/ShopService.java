@@ -1,8 +1,6 @@
 package cn.gxust.springboot.service;
 
 import cn.gxust.springboot.vo.ShopVO;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 import java.util.List;
 

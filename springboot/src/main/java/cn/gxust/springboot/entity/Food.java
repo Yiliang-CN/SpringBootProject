@@ -4,32 +4,35 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 
 @Entity
-@Table(name = "shops")
+@Table(name = "foods")
 @DynamicInsert  // 只插入非 NULL 字段 让数据库处理默认值
-public class Shop {
+public class Food {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;     // 编号id
+    private int id;         // 编号ID
 
     @Column(name = "name")
-    private String name;        // 店铺名
+    private String name;    // 菜品名
+
+    @Column(name = "shopId")
+    private int shopId;     // 店铺ID
+
+    @Column(name = "type")
+    private String type;    // 分类
 
     @Column(name = "sales")
-    private int sales;          // 销量
+    private int sales;      // 销量
 
     @Column(name = "price")
-    private double price;       // 价格
+    private double price;   // 价格
 
-    @Column(name = "addr")
-    private String addr;        // 地址
-
-    @Column(name = "phone")
-    private String phone;       // 手机号
+    @Column(name = "num")
+    private int num;        // 数量
 
     @Column(name = "image")
-    private String image;       // 图片
+    private String image;   // 图片
 
     public int getId() {
         return id;
@@ -45,6 +48,22 @@ public class Shop {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getSales() {
@@ -63,20 +82,12 @@ public class Shop {
         this.price = price;
     }
 
-    public String getAddr() {
-        return addr;
+    public int getNum() {
+        return num;
     }
 
-    public void setAddr(String addr) {
-        this.addr = addr;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public String getImage() {
