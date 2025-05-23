@@ -20,7 +20,7 @@ public class FoodController {
     private FoodService foodService;
 
     /**
-     * 根据菜品ID获取菜品信息
+     * 获取指定菜品信息
      *
      * @param id 菜品ID
      * @return 指定菜品信息
@@ -34,10 +34,10 @@ public class FoodController {
 
 
     /**
-     * 获取指定店铺的所有菜品
+     * 获取指定店铺所有菜品信息
      *
      * @param shopId 店铺ID
-     * @return 指定店铺的所有菜品
+     * @return 指定店铺所有菜品信息
      */
     @GetMapping("/shops/{shopId}/foods")
     public Response<List<FoodVO>> getAllFoodByShopId(@PathVariable

@@ -1,12 +1,15 @@
 package cn.gxust.springboot.service;
 
+import cn.gxust.springboot.dto.OrderCreateDTO;
 import cn.gxust.springboot.vo.OrderVO;
 
 import java.util.List;
 
 public interface OrderService {
 
-    OrderVO getOrderById(Integer id);
+    OrderVO getOrderById(Long id);
 
-    List<OrderVO> getAllOrderByUserId(Integer userId);
+    List<OrderVO> getOrderByUserId(Integer userId);
+
+    Long addOrder(OrderCreateDTO orderCreateDTO);
 }

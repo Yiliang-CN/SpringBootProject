@@ -5,9 +5,8 @@ import cn.gxust.springboot.vo.ShopVO;
 
 public class ShopConverter {
 
-    public static ShopVO convertShop(Shop shop) {
+    public static ShopVO convertToShopVO(Shop shop) {
         ShopVO shopVO = new ShopVO();
-        shopVO.setId(shop.getId());
         shopVO.setName(shop.getName());
         shopVO.setSales(shop.getSales());
         shopVO.setPrice(shop.getPrice());

@@ -17,10 +17,10 @@ public class ShopController {
     private ShopService shopService;
 
     /**
-     * 获取店铺信息
+     * 获取指定店铺信息
      *
      * @param id 店铺ID
-     * @return 店铺信息包装类ShopVO
+     * @return 指定店铺信息
      */
     @GetMapping("/shops/{id}")
     public Response<ShopVO> getShopById(@PathVariable
@@ -33,7 +33,7 @@ public class ShopController {
     /**
      * 获取所有店铺信息
      *
-     * @return 所有店铺信息包装类List<ShopVO>
+     * @return 所有店铺信息
      */
     @GetMapping("/shops")
     public Response<List<ShopVO>> getAllShop() {

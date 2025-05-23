@@ -2,7 +2,7 @@ package cn.gxust.springboot.service.impl;
 
 import cn.gxust.springboot.converter.FoodConverter;
 import cn.gxust.springboot.entity.Food;
-import cn.gxust.springboot.repository.FoodRepository;
+import cn.gxust.springboot.dao.FoodRepository;
 import cn.gxust.springboot.service.FoodService;
 import cn.gxust.springboot.vo.FoodVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class FoodServiceImpl implements FoodService {
         // 获取指定菜品信息
         Food foodInDB = foodRepository.findById(id).orElseThrow(RuntimeException::new);
 
-        return FoodConverter.convertFood(foodInDB);
+        return FoodConverter.convertToFoodVO(foodInDB);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class FoodServiceImpl implements FoodService {
         }
 
         // 获取店铺所有菜品信息
-        List<Food> foodListInDB = foodRepository.findAllFoodByShopId(shopId);
+        List<Food> foodListInDB = foodRepository.findByShopId(shopId);
 
-        return foodListInDB.stream().map(FoodConverter::convertFood).toList();
+        return foodListInDB.stream().map(FoodConverter::convertToFoodVO).toList();
     }
 }

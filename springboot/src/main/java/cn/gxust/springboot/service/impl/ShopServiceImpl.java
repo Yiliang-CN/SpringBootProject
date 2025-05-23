@@ -1,7 +1,7 @@
 package cn.gxust.springboot.service.impl;
 
 import cn.gxust.springboot.converter.ShopConverter;
-import cn.gxust.springboot.repository.ShopRepository;
+import cn.gxust.springboot.dao.ShopRepository;
 import cn.gxust.springboot.entity.Shop;
 import cn.gxust.springboot.service.ShopService;
 import cn.gxust.springboot.vo.ShopVO;
@@ -26,7 +26,7 @@ public class ShopServiceImpl implements ShopService {
         // 获取店铺信息
         Shop shopInDB = shopRepository.findById(id).orElseThrow(RuntimeException::new);
 
-        return ShopConverter.convertShop(shopInDB);
+        return ShopConverter.convertToShopVO(shopInDB);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class ShopServiceImpl implements ShopService {
         // 获取所有店铺信息
         List<Shop> shopListInDB = shopRepository.findAll();
 
-        return shopListInDB.stream().map(ShopConverter::convertShop).toList();
+        return shopListInDB.stream().map(ShopConverter::convertToShopVO).toList();
     }
 }

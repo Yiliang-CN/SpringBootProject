@@ -1,22 +1,20 @@
 package cn.gxust.springboot.service.impl;
 
 import cn.gxust.springboot.converter.OrderConverter;
+import cn.gxust.springboot.dto.OrderCreateDTO;
+import cn.gxust.springboot.dto.OrderShopUserDTO;
 import cn.gxust.springboot.entity.Order;
-import cn.gxust.springboot.entity.Shop;
-import cn.gxust.springboot.entity.User;
-import cn.gxust.springboot.repository.OrderRepository;
-import cn.gxust.springboot.repository.ShopRepository;
-import cn.gxust.springboot.repository.UserRepository;
+import cn.gxust.springboot.dao.OrderRepository;
+import cn.gxust.springboot.dao.ShopRepository;
+import cn.gxust.springboot.dao.UserRepository;
 import cn.gxust.springboot.service.OrderService;
 import cn.gxust.springboot.vo.OrderVO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,48 +27,65 @@ public class OrderServiceImpl implements OrderService {
     private UserRepository userRepository;
 
     @Override
-    public OrderVO getOrderById(Integer id) {
+    public OrderVO getOrderById(Long id) {
         // 验证订单ID
         if (id == null || id < 100000) {
             throw new IllegalStateException("订单ID长度不少于6位");
         }
 
-//        // 获取指定订单信息及相关联数据
-//        Order orderInDB = orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("订单不存在"));
-//
-//        // 获取相关店铺信息
-//        Shop shopInDB = shopRepository.findById(orderInDB.getShopId()).orElseThrow(() -> new IllegalStateException("店铺不存在"));
-//
-//        // 获取相关用户信息
-//        User userInDB = userRepository.findById(orderInDB.getUserId()).orElseThrow(() -> new IllegalStateException("用户不存在"));
+        // 获取指定订单信息
+        OrderShopUserDTO orderShopUserDTOInDB = orderRepository.findOrderById(id);
 
-        return orderRepository.findOrderVOById(id);
+        return OrderConverter.convertToOrderVO(orderShopUserDTOInDB);
     }
 
     @Override
-    public List<OrderVO> getAllOrderByUserId(Integer userId) {
+    public List<OrderVO> getOrderByUserId(Integer userId) {
         // 验证用户ID
         if (userId == null || userId < 100000000) {
             throw new IllegalStateException("用户ID长度在9-10之间");
         }
 
-        // 获取指定用户所有的订单信息
-        List<Order> orderListInDB = orderRepository.findAllOrderByUserId(userId);
-        if (orderListInDB.isEmpty()) {
-            return Collections.emptyList();     // 订单列表为空
+        // 获取指定用户所有订单信息
+        List<OrderShopUserDTO> orderShopUserDTOListInDB = orderRepository.findOrderByUserId(userId);
+
+        return orderShopUserDTOListInDB.stream().map(OrderConverter::convertToOrderVO).toList();
+    }
+
+    @Override
+    @Transactional
+    public Long addOrder(OrderCreateDTO orderCreateDTO) {
+        // 验证订单信息
+        if (orderCreateDTO.getShopId() < 100000000 ||
+                orderCreateDTO.getUserId() < 100000000 ||
+                !StringUtils.hasText(orderCreateDTO.getContent()) ||
+                orderCreateDTO.getPrice() < 0 ||
+                !StringUtils.hasText(orderCreateDTO.getAddr()) ||
+                !StringUtils.hasText(orderCreateDTO.getPhone())) {
+            throw new IllegalStateException("订单信息不合法");
         }
 
-        // 获取所有店铺ID
-        Set<Integer> shopIdSet = orderListInDB.stream().map(Order::getShopId).collect(Collectors.toSet());
+        // 验证手机号格式
+        if(!orderCreateDTO.getPhone().matches("^1[3-9][0-9]{9}$")){
+            throw new IllegalStateException("手机号格式不正确");
+        }
 
-        // 批量查询店铺信息
-        Map<Integer, Shop> shopMap = shopRepository.findAllById(shopIdSet).stream().collect(Collectors.toMap(Shop::getId, shop -> shop));
+        // 验证店铺是否存在
+        if(!shopRepository.existsById(orderCreateDTO.getShopId())){
+            throw new IllegalStateException("店铺不存在");
+        }
 
-        // 获取所有订单ID
-        Set<Long> orderIdSet = orderListInDB.stream().map(Order::getId).collect(Collectors.toSet());
+        // 验证用户是否存在
+        if(!userRepository.existsById(orderCreateDTO.getUserId())){
+            throw new IllegalStateException("用户不存在");
+        }
 
-        // 组装VO列表
+        // 转换订单信息
+        Order order = OrderConverter.convertToOrder(orderCreateDTO);
 
-        return List.of();
+        // 保存订单信息
+        orderRepository.save(order);
+
+        return order.getId();
     }
 }

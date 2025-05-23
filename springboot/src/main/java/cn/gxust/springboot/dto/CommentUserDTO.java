@@ -1,11 +1,19 @@
-package cn.gxust.springboot.vo;
+package cn.gxust.springboot.dto;
 
-public class CommentVO {
+public class CommentUserDTO {
     private String userName;
     private double score;
     private String time;
     private String content;
     private String image;
+
+    public CommentUserDTO(String userName, double score, String time, String content, String image) {
+        this.userName = userName;
+        this.score = score;
+        this.time = time;
+        this.content = content;
+        this.image = image;
+    }
 
     public String getUserName() {
         return userName;

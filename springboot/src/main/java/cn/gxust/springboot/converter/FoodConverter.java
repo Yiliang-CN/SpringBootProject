@@ -4,11 +4,9 @@ import cn.gxust.springboot.entity.Food;
 import cn.gxust.springboot.vo.FoodVO;
 
 public class FoodConverter {
-    public static FoodVO convertFood(Food food) {
+    public static FoodVO convertToFoodVO(Food food) {
         FoodVO foodVO = new FoodVO();
-        foodVO.setId(food.getId());
         foodVO.setName(food.getName());
-        foodVO.setShopId(food.getShopId());
         foodVO.setType(food.getType());
         foodVO.setSales(food.getSales());
         foodVO.setPrice(food.getPrice());

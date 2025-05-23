@@ -1,22 +1,12 @@
 package cn.gxust.springboot.vo;
 
 public class FoodVO {
-    private int id;
     private String name;
-    private int shopId;
     private String type;
     private int sales;
     private double price;
     private int num;
     private String image;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -24,14 +14,6 @@ public class FoodVO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
     }
 
     public String getType() {

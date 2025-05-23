@@ -2,6 +2,7 @@ package cn.gxust.springboot.controller;
 
 import cn.gxust.springboot.dto.Response;
 import cn.gxust.springboot.dto.UserCreateDTO;
+import cn.gxust.springboot.dto.UserQueryDTO;
 import cn.gxust.springboot.dto.UserUpdateDTO;
 import cn.gxust.springboot.service.UserService;
 import cn.gxust.springboot.vo.UserVO;
@@ -18,10 +19,10 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 根据用户ID获取用户信息
+     * 获取指定用户信息
      *
      * @param id 用户ID
-     * @return 用户信息包装类UserVO
+     * @return 指定用户信息
      */
     @GetMapping("/users/{id}")
     public Response<UserVO> getUserById(@PathVariable
@@ -32,21 +33,32 @@ public class UserController {
     }
 
     /**
-     * 添加新用户
+     * 用户登录
      *
-     * @param userCreateDTO 用户信息
-     * @return 用户ID
+     * @param userQueryDTO 用户信息
+     * @return 用户信息
      */
-    @PostMapping("/users")
-    public Response<Integer> addUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
-        return Response.success(userService.addUser(userCreateDTO));
+    @PostMapping("/users/login")
+    public Response<UserVO> login(@RequestBody @Valid UserQueryDTO userQueryDTO) {
+        return Response.success(userService.login(userQueryDTO));
     }
 
     /**
-     * 删除用户
+     * 用户注册
+     *
+     * @param userCreateDTO 用户信息
+     * @return 新用户的ID
+     */
+    @PostMapping("/users/register")
+    public Response<Integer> register(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+        return Response.success(userService.register(userCreateDTO));
+    }
+
+    /**
+     * 删除指定用户信息
      *
      * @param id 用户ID
-     * @return 用户ID
+     * @return 被删除的用户ID
      */
     @DeleteMapping("/users/{id}")
     public Response<Integer> deleteUserById(@PathVariable
@@ -57,11 +69,11 @@ public class UserController {
     }
 
     /**
-     * 更新用户信息
+     * 更新指定用户信息
      *
      * @param id            用户ID
      * @param userUpdateDTO 用户信息
-     * @return 用户信息包装类UserVO
+     * @return 更新后的用户信息
      */
     @PutMapping("/users/{id}")
     public Response<UserVO> updateUserById(@PathVariable

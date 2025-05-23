@@ -1,24 +1,34 @@
 package cn.gxust.springboot.converter;
 
-import cn.gxust.springboot.entity.Comment;
+import cn.gxust.springboot.dto.OrderCreateDTO;
+import cn.gxust.springboot.dto.OrderShopUserDTO;
 import cn.gxust.springboot.entity.Order;
-import cn.gxust.springboot.entity.Shop;
-import cn.gxust.springboot.entity.User;
 import cn.gxust.springboot.vo.OrderVO;
 
 public class OrderConverter {
 
-    public static OrderVO convertOrder(Order order, User user, Shop shop) {
+    public static OrderVO convertToOrderVO(OrderShopUserDTO orderShopUserDTO) {
         OrderVO orderVO = new OrderVO();
-        orderVO.setId(order.getId());
-        orderVO.setShopName(shop.getName());
-        orderVO.setUserName(user.getName());
-        orderVO.setContent(order.getContent());
-        orderVO.setPrice(order.getPrice());
-        orderVO.setTime(order.getTime());
-        orderVO.setAddr(order.getAddr());
-        orderVO.setPhone(order.getPhone());
-        orderVO.setState(order.getState());
+        orderVO.setId(orderShopUserDTO.getId());
+        orderVO.setShopName(orderShopUserDTO.getShopName());
+        orderVO.setUserName(orderShopUserDTO.getUserName());
+        orderVO.setContent(orderShopUserDTO.getContent());
+        orderVO.setPrice(orderShopUserDTO.getPrice());
+        orderVO.setTime(orderShopUserDTO.getTime());
+        orderVO.setAddr(orderShopUserDTO.getAddr());
+        orderVO.setPhone(orderShopUserDTO.getPhone());
+        orderVO.setState(orderShopUserDTO.getState());
         return orderVO;
+    }
+
+    public static Order convertToOrder(OrderCreateDTO orderCreateDTO){
+        Order order = new Order();
+        order.setShopId(orderCreateDTO.getShopId());
+        order.setUserId(orderCreateDTO.getUserId());
+        order.setContent(orderCreateDTO.getContent());
+        order.setPrice(orderCreateDTO.getPrice());
+        order.setAddr(orderCreateDTO.getAddr());
+        order.setPhone(orderCreateDTO.getPhone());
+        return order;
     }
 }
