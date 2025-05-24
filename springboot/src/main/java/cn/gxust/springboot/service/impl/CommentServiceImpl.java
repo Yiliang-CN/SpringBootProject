@@ -9,6 +9,10 @@ import cn.gxust.springboot.dao.OrderRepository;
 import cn.gxust.springboot.dao.ShopRepository;
 import cn.gxust.springboot.dao.UserRepository;
 import cn.gxust.springboot.service.CommentService;
+import cn.gxust.springboot.utils.CommentValidator;
+import cn.gxust.springboot.utils.OrderValidator;
+import cn.gxust.springboot.utils.ShopValidator;
+import cn.gxust.springboot.utils.UserValidator;
 import cn.gxust.springboot.vo.CommentVO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentVO getCommentById(Long id) {
         // 验证评论ID
-        if (id == null || id < 0) {
+        if (!CommentValidator.isValidId(id)) {
             throw new IllegalStateException("评论ID必须是正数");
         }
 
@@ -45,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentVO> getCommentByShopId(Integer shopId) {
         // 验证店铺ID
-        if (shopId == null || shopId < 100000000) {
+        if (!ShopValidator.isValidId(shopId)) {
             throw new IllegalStateException("店铺ID长度在9-10之间");
         }
 
@@ -59,11 +63,11 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Long addComment(CommentCreateDTO commentCreateDTO) {
         // 验证评论信息
-        if (commentCreateDTO.getShopId() < 100000000 ||
-                commentCreateDTO.getUserId() < 100000000 ||
-                commentCreateDTO.getOrderId() < 100000 ||
-                commentCreateDTO.getScore() < 0 || commentCreateDTO.getScore() > 5 ||
-                !StringUtils.hasText(commentCreateDTO.getContent())) {
+        if (!ShopValidator.isValidId(commentCreateDTO.getShopId()) ||
+                !UserValidator.isValidId(commentCreateDTO.getUserId()) ||
+                !OrderValidator.isValidId(commentCreateDTO.getOrderId()) ||
+                !CommentValidator.isValidScore(commentCreateDTO.getScore()) ||
+                !CommentValidator.isValidContent(commentCreateDTO.getContent())) {
             throw new IllegalStateException("评论信息不合法");
         }
 

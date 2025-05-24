@@ -1,12 +1,21 @@
 package cn.gxust.springboot.vo;
 
 public class FoodVO {
+    private int id;
     private String name;
     private String type;
     private int sales;
     private double price;
     private int num;
     private String image;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

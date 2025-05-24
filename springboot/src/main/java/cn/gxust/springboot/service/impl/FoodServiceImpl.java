@@ -4,6 +4,8 @@ import cn.gxust.springboot.converter.FoodConverter;
 import cn.gxust.springboot.entity.Food;
 import cn.gxust.springboot.dao.FoodRepository;
 import cn.gxust.springboot.service.FoodService;
+import cn.gxust.springboot.utils.FoodValidator;
+import cn.gxust.springboot.utils.ShopValidator;
 import cn.gxust.springboot.vo.FoodVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public FoodVO getFoodById(Integer id) {
         // 验证菜品ID
-        if (id == null || id < 0) {
+        if (!FoodValidator.isValidId(id)) {
             throw new IllegalStateException("菜品ID必须是正数");
         }
 
@@ -32,7 +34,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public List<FoodVO> getAllFoodByShopId(Integer shopId) {
         // 验证店铺ID
-        if (shopId == null || shopId < 100000000) {
+        if (!ShopValidator.isValidId(shopId)) {
             throw new IllegalStateException("店铺ID长度在9-10之间");
         }
 

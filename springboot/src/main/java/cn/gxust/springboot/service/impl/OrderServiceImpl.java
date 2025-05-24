@@ -8,6 +8,9 @@ import cn.gxust.springboot.dao.OrderRepository;
 import cn.gxust.springboot.dao.ShopRepository;
 import cn.gxust.springboot.dao.UserRepository;
 import cn.gxust.springboot.service.OrderService;
+import cn.gxust.springboot.utils.OrderValidator;
+import cn.gxust.springboot.utils.ShopValidator;
+import cn.gxust.springboot.utils.UserValidator;
 import cn.gxust.springboot.vo.OrderVO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderVO getOrderById(Long id) {
         // 验证订单ID
-        if (id == null || id < 100000) {
+        if (!OrderValidator.isValidId(id)) {
             throw new IllegalStateException("订单ID长度不少于6位");
         }
 
@@ -42,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderVO> getOrderByUserId(Integer userId) {
         // 验证用户ID
-        if (userId == null || userId < 100000000) {
+        if (!UserValidator.isValidId(userId)) {
             throw new IllegalStateException("用户ID长度在9-10之间");
         }
 
@@ -56,27 +59,22 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Long addOrder(OrderCreateDTO orderCreateDTO) {
         // 验证订单信息
-        if (orderCreateDTO.getShopId() < 100000000 ||
-                orderCreateDTO.getUserId() < 100000000 ||
-                !StringUtils.hasText(orderCreateDTO.getContent()) ||
-                orderCreateDTO.getPrice() < 0 ||
-                !StringUtils.hasText(orderCreateDTO.getAddr()) ||
-                !StringUtils.hasText(orderCreateDTO.getPhone())) {
+        if (!ShopValidator.isValidId(orderCreateDTO.getShopId()) ||
+                !UserValidator.isValidId(orderCreateDTO.getUserId()) ||
+                !OrderValidator.isValidContent(orderCreateDTO.getContent()) ||
+                !OrderValidator.isValidPrice(orderCreateDTO.getPrice()) ||
+                !OrderValidator.isValidAddr(orderCreateDTO.getAddr()) ||
+                !UserValidator.isValidPhone(orderCreateDTO.getPhone())) {
             throw new IllegalStateException("订单信息不合法");
         }
 
-        // 验证手机号格式
-        if(!orderCreateDTO.getPhone().matches("^1[3-9][0-9]{9}$")){
-            throw new IllegalStateException("手机号格式不正确");
-        }
-
         // 验证店铺是否存在
-        if(!shopRepository.existsById(orderCreateDTO.getShopId())){
+        if (!shopRepository.existsById(orderCreateDTO.getShopId())) {
             throw new IllegalStateException("店铺不存在");
         }
 
         // 验证用户是否存在
-        if(!userRepository.existsById(orderCreateDTO.getUserId())){
+        if (!userRepository.existsById(orderCreateDTO.getUserId())) {
             throw new IllegalStateException("用户不存在");
         }
 

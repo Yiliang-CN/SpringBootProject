@@ -7,11 +7,11 @@ import cn.gxust.springboot.dto.UserUpdateDTO;
 import cn.gxust.springboot.dao.UserRepository;
 import cn.gxust.springboot.entity.User;
 import cn.gxust.springboot.service.UserService;
+import cn.gxust.springboot.utils.UserValidator;
 import cn.gxust.springboot.vo.UserVO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserVO getUserById(Integer id) {
-        // 验证用户ID
-        if (id == null || id < 100000000) {
+        // 验证用户ID格式
+        if (!UserValidator.isValidId(id)) {
             throw new IllegalStateException("用户ID长度在9-10之间");
         }
 
@@ -36,25 +36,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserVO login(UserQueryDTO userQueryDTO) {
-        // 验证用户信息
-        if (!StringUtils.hasText(userQueryDTO.getPhone()) ||
-                !StringUtils.hasText(userQueryDTO.getPassword())) {
-            throw new IllegalStateException("用户登录信息不完整");
+        // 验证手机号格式
+        if (!UserValidator.isValidPhone(userQueryDTO.getPhone())) {
+            throw new IllegalStateException("手机号格式不正确");
         }
 
-        // 验证手机号格式
-        if (!userQueryDTO.getPhone().matches("^1[3-9][0-9]{9}$")) {
-            throw new IllegalStateException("手机号格式不正确");
+        // 验证密码格式
+        if (!UserValidator.isValidPassword(userQueryDTO.getPassword())) {
+            throw new IllegalStateException("用户密码格式不正确");
         }
 
         // 验证用户手机号是否已存在
         User userInDB = userRepository.findByPhone(userQueryDTO.getPhone());
-        if(userInDB == null){
+        if (userInDB == null) {
             throw new IllegalStateException("用户手机号不存在: " + userQueryDTO.getPhone());
         }
 
         // 验证密码
-        if(!Objects.equals(userQueryDTO.getPassword(), userInDB.getPassword())){
+        if (!Objects.equals(userQueryDTO.getPassword(), userInDB.getPassword())) {
             throw new IllegalStateException("用户密码错误");
         }
 
@@ -64,17 +63,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional  // 添加新用户属于写操作 要添加事务 保证数据一致性
     public Integer register(UserCreateDTO userCreateDTO) {
-        // 验证用户信息
-        if (!StringUtils.hasText(userCreateDTO.getPhone()) || !StringUtils.hasText(userCreateDTO.getPassword())) {
-            throw new IllegalStateException("用户信息不完整");
-        }
         // 验证手机号格式
-        if (!userCreateDTO.getPhone().matches("^1[3-9][0-9]{9}$")) {
+        if (!UserValidator.isValidPhone(userCreateDTO.getPhone())) {
             throw new IllegalStateException("手机号格式不正确");
         }
+
         // 验证密码格式
-        if (userCreateDTO.getPassword().length() < 6 || userCreateDTO.getPassword().length() > 20) {
-            throw new IllegalStateException("密码长度在6-20之间");
+        if (!UserValidator.isValidPassword(userCreateDTO.getPassword())) {
+            throw new IllegalStateException("用户密码格式不正确");
         }
 
         // 验证用户手机号是否已存在
@@ -96,7 +92,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Integer deleteUserById(Integer id) {
         // 验证用户ID
-        if (id == null || id < 100000000) {
+        if (!UserValidator.isValidId(id)) {
             throw new IllegalStateException("用户ID长度在9-10之间");
         }
 
@@ -113,39 +109,33 @@ public class UserServiceImpl implements UserService {
     @Transactional  // 操作失败时回滚数据
     public UserVO updateUserById(Integer id, UserUpdateDTO userUpdateDTO) {
         // 验证用户ID
-        if (id == null || id < 100000000) {
+        if (!UserValidator.isValidId(id)) {
             throw new IllegalStateException("用户ID长度在9-10之间");
         }
 
         // 验证用户名格式
-        if (!StringUtils.hasText(userUpdateDTO.getName()) ||
-                userUpdateDTO.getName().isEmpty() ||
-                userUpdateDTO.getName().length() > 16) {
-            throw new IllegalStateException("用户名长度在1-16之间");
+        if (!UserValidator.isValidName(userUpdateDTO.getName())) {
+            throw new IllegalStateException("用户名格式不正确");
         }
 
         // 验证密码格式
-        if (!StringUtils.hasText(userUpdateDTO.getPassword()) ||
-                userUpdateDTO.getPassword().length() < 6 ||
-                userUpdateDTO.getPassword().length() > 20) {
-            throw new IllegalStateException("密码长度在6-20之间");
+        if (!UserValidator.isValidPassword(userUpdateDTO.getPassword())) {
+            throw new IllegalStateException("用户密码格式不正确");
         }
 
         // 验证性别
-        if (!StringUtils.hasText(userUpdateDTO.getGender()) ||
-                !userUpdateDTO.getGender().matches("男|女|保密")) {
-            throw new IllegalStateException("性别只能是男、女或保密");
+        if (!UserValidator.isValidGender(userUpdateDTO.getGender())) {
+            throw new IllegalStateException("用户性别格式不正确");
         }
 
         // 验证生日格式
-        if (!StringUtils.hasText(userUpdateDTO.getBirthday()) ||
-                !userUpdateDTO.getBirthday().matches("\\d{4}-\\d{2}-\\d{2}")) {
-            throw new IllegalStateException("生日格式为yyyy-MM-dd");
+        if (!UserValidator.isValidBirthday(userUpdateDTO.getBirthday())) {
+            throw new IllegalStateException("用户生日格式不正确");
         }
 
         // 验证图片URL
-        if (!StringUtils.hasText(userUpdateDTO.getImage())) {
-            throw new IllegalStateException("图片URL格式错误");
+        if (!UserValidator.isValidUrl(userUpdateDTO.getImage())) {
+            throw new IllegalStateException("图片URL格式不正确");
         }
 
         // 验证用户信息是否存在

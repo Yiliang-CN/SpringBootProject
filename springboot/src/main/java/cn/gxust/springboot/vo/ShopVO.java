@@ -1,12 +1,21 @@
 package cn.gxust.springboot.vo;
 
 public class ShopVO {
+    private int id;
     private String name;
     private int sales;
     private double price;
     private String addr;
     private String phone;
     private String image;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

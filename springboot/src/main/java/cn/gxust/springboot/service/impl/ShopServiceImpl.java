@@ -4,6 +4,7 @@ import cn.gxust.springboot.converter.ShopConverter;
 import cn.gxust.springboot.dao.ShopRepository;
 import cn.gxust.springboot.entity.Shop;
 import cn.gxust.springboot.service.ShopService;
+import cn.gxust.springboot.utils.ShopValidator;
 import cn.gxust.springboot.vo.ShopVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public ShopVO getShopById(Integer id) {
         // 验证店铺ID
-        if (id == null || id < 100000000) {
+        if (!ShopValidator.isValidId(id)) {
             throw new IllegalStateException("店铺ID长度在9-10之间");
         }
 
