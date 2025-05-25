@@ -9,8 +9,8 @@ public class ShopConverter {
         ShopVO shopVO = new ShopVO();
         shopVO.setId(shop.getId());
         shopVO.setName(shop.getName());
+        shopVO.setScore(shop.getScore());
         shopVO.setSales(shop.getSales());
-        shopVO.setPrice(shop.getPrice());
         shopVO.setAddr(shop.getAddr());
         shopVO.setPhone(shop.getPhone());
         shopVO.setImage(shop.getImage());

@@ -16,11 +16,11 @@ public class Shop {
     @Column(name = "name")
     private String name;        // 店铺名
 
+    @Column(name = "score")
+    private double score;       // 评分
+
     @Column(name = "sales")
     private int sales;          // 销量
-
-    @Column(name = "price")
-    private double price;       // 价格
 
     @Column(name = "addr")
     private String addr;        // 地址
@@ -47,20 +47,20 @@ public class Shop {
         this.name = name;
     }
 
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
     public int getSales() {
         return sales;
     }
 
     public void setSales(int sales) {
         this.sales = sales;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public String getAddr() {

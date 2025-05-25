@@ -22,6 +22,9 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private static final String STATE_CANCELED = "已取消";
+    private static final String STATE_DELETED = "已删除";
+
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -83,6 +86,44 @@ public class OrderServiceImpl implements OrderService {
 
         // 保存订单信息
         orderRepository.save(order);
+
+        return order.getId();
+    }
+
+    @Override
+    public Long cancelOrder(Long id) {
+        // 验证订单ID
+        if (!OrderValidator.isValidId(id)) {
+            throw new IllegalStateException("订单ID长度不少于6位");
+        }
+
+        // 验证订单是否存在
+        Order orderInDB = orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("订单: " + id + " 不存在"));
+
+        // 修改订单状态
+        orderInDB.setState(STATE_CANCELED);
+
+        // 更新订单信息到数据库
+        Order order = orderRepository.save(orderInDB);
+
+        return order.getId();
+    }
+
+    @Override
+    public Long deleteOrder(Long id) {
+        // 验证订单ID
+        if (!OrderValidator.isValidId(id)) {
+            throw new IllegalStateException("订单ID长度不少于6位");
+        }
+
+        // 验证订单是否存在
+        Order orderInDB = orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("订单: " + id + " 不存在"));
+
+        // 修改订单状态
+        orderInDB.setState(STATE_DELETED);
+
+        // 更新订单信息到数据库
+        Order order = orderRepository.save(orderInDB);
 
         return order.getId();
     }

@@ -19,13 +19,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.id = :id")
     OrderShopUserDTO findOrderById(@Param("id") long id);
 
-
     @Query("SELECT new cn.gxust.springboot.dto.OrderShopUserDTO(" +
             "o.id, s.name, u.name, o.content, o.price, " +
             "o.time, o.addr, o.phone, o.state) " +
             "FROM Order o " +
             "JOIN Shop s ON o.shopId = s.id " +
             "JOIN User u ON o.userId = u.id " +
-            "WHERE o.userId = :userId")
+            "WHERE o.userId = :userId and o.state != '已删除'")
     List<OrderShopUserDTO> findOrderByUserId(@Param("userId") int userId);
 }

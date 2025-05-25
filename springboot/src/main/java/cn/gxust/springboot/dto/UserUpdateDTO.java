@@ -9,9 +9,9 @@ public class UserUpdateDTO {
     @Size(min = 1, max = 16, message = "用户名长度在1-16之间")
     private String name;
 
-    @NotBlank
-    @Size(min = 6, max = 20, message = "密码长度在6-20之间")
-    private String password;
+//    @NotBlank
+//    @Size(min = 6, max = 20, message = "密码长度在6-20之间")
+//    private String password;
 
     @NotBlank
     @Pattern(regexp = "男|女|保密", message = "性别只能是男、女或保密")
@@ -32,13 +32,13 @@ public class UserUpdateDTO {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public String getGender() {
         return gender;

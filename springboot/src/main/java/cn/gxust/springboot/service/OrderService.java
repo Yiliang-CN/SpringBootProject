@@ -12,4 +12,8 @@ public interface OrderService {
     List<OrderVO> getOrderByUserId(Integer userId);
 
     Long addOrder(OrderCreateDTO orderCreateDTO);
+
+    Long cancelOrder(Long id);
+
+    Long deleteOrder(Long id);
 }

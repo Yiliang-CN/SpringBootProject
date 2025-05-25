@@ -39,9 +39,9 @@ public class OrderController {
      */
     @GetMapping("/users/{userId}/orders")
     public Response<List<OrderVO>> getOrderByUserId(@PathVariable
-                                                       @Min(value = 100000000, message = "用户ID长度在9-10之间")
-                                                       @Max(value = 2147483647, message = "用户ID长度在9-10之间")
-                                                       Integer userId) {
+                                                    @Min(value = 100000000, message = "用户ID长度在9-10之间")
+                                                    @Max(value = 2147483647, message = "用户ID长度在9-10之间")
+                                                    Integer userId) {
         return Response.success(orderService.getOrderByUserId(userId));
     }
 
@@ -52,7 +52,21 @@ public class OrderController {
      * @return 新订单的ID
      */
     @PostMapping("/orders")
-    public Response<Long> addOrder(@RequestBody @Valid OrderCreateDTO orderCreateDTO){
+    public Response<Long> addOrder(@RequestBody @Valid OrderCreateDTO orderCreateDTO) {
         return Response.success(orderService.addOrder(orderCreateDTO));
+    }
+
+    @PostMapping("/orders/cancel/{id}")
+    public Response<Long> cancelOrder(@PathVariable
+                                      @Min(value = 100000, message = "订单ID长度不少于6位")
+                                      Long id) {
+        return Response.success(orderService.cancelOrder(id));
+    }
+
+    @PostMapping("/orders/delete/{id}")
+    public Response<Long> deleteOrder(@PathVariable
+                                      @Min(value = 100000, message = "订单ID长度不少于6位")
+                                      Long id) {
+        return Response.success(orderService.deleteOrder(id));
     }
 }

@@ -75,7 +75,7 @@ public class UserController {
      * @param userUpdateDTO 用户信息
      * @return 更新后的用户信息
      */
-    @PutMapping("/users/{id}")
+    @PostMapping("/users/{id}")
     public Response<UserVO> updateUserById(@PathVariable
                                            @Min(value = 100000000, message = "用户ID长度在9-10之间")
                                            @Max(value = 2147483647, message = "用户ID长度在9-10之间")

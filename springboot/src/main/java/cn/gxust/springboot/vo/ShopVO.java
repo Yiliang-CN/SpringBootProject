@@ -3,8 +3,8 @@ package cn.gxust.springboot.vo;
 public class ShopVO {
     private int id;
     private String name;
+    private double score;
     private int sales;
-    private double price;
     private String addr;
     private String phone;
     private String image;
@@ -25,20 +25,20 @@ public class ShopVO {
         this.name = name;
     }
 
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
     public int getSales() {
         return sales;
     }
 
     public void setSales(int sales) {
         this.sales = sales;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public String getAddr() {

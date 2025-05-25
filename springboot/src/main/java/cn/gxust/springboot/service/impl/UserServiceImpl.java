@@ -118,10 +118,10 @@ public class UserServiceImpl implements UserService {
             throw new IllegalStateException("用户名格式不正确");
         }
 
-        // 验证密码格式
-        if (!UserValidator.isValidPassword(userUpdateDTO.getPassword())) {
-            throw new IllegalStateException("用户密码格式不正确");
-        }
+//        // 验证密码格式
+//        if (!UserValidator.isValidPassword(userUpdateDTO.getPassword())) {
+//            throw new IllegalStateException("用户密码格式不正确");
+//        }
 
         // 验证性别
         if (!UserValidator.isValidGender(userUpdateDTO.getGender())) {
@@ -146,10 +146,10 @@ public class UserServiceImpl implements UserService {
         if (!Objects.equals(userUpdateDTO.getName(), userInDB.getName())) {
             userInDB.setName(userUpdateDTO.getName());
         }
-        // 检验密码
-        if (!Objects.equals(userUpdateDTO.getPassword(), userInDB.getPassword())) {
-            userInDB.setPassword(userUpdateDTO.getPassword());
-        }
+//        // 检验密码
+//        if (!Objects.equals(userUpdateDTO.getPassword(), userInDB.getPassword())) {
+//            userInDB.setPassword(userUpdateDTO.getPassword());
+//        }
         // 检验性别
         if (!Objects.equals(userUpdateDTO.getGender(), userInDB.getGender())) {
             userInDB.setGender(userUpdateDTO.getGender());
