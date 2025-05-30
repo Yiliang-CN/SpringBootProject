@@ -3,10 +3,13 @@ package cn.gxust.springboot.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "shops")
 @DynamicInsert  // 只插入非 NULL 字段 让数据库处理默认值
-public class Shop {
+public class Shop implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id")

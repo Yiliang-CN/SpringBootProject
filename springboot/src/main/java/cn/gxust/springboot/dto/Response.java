@@ -23,13 +23,10 @@ public class Response<T> {
         return response;
     }
 
-    public static <T> Response<T> badRequest(String message) {
-        return fail(400, message);
+    public static <T> Response<T> error(String message) {
+        return fail(500, message);
     }
 
-    public static <T> Response<T> notFound(String message) {
-        return fail(404, message);
-    }
 
     public int getCode() {
         return code;

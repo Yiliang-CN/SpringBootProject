@@ -11,6 +11,9 @@ import cn.gxust.springboot.utils.UserValidator;
 import cn.gxust.springboot.vo.UserVO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -21,6 +24,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Cacheable(value = "users", key = "#id")
     @Override
     public UserVO getUserById(Integer id) {
         // 验证用户ID格式
@@ -29,7 +33,8 @@ public class UserServiceImpl implements UserService {
         }
 
         // 获取用户信息
-        User userInDB = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        User userInDB = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("用户: " + id + " 不存在"));
 
         return UserConverter.convertToUserVO(userInDB);
     }
@@ -88,6 +93,7 @@ public class UserServiceImpl implements UserService {
         return user.getId();
     }
 
+    @CacheEvict(value = "users", key = "#id")
     @Override
     @Transactional
     public Integer deleteUserById(Integer id) {
@@ -105,6 +111,7 @@ public class UserServiceImpl implements UserService {
         return userInDB.getId();
     }
 
+    @CachePut(value = "users", key = "#id")
     @Override
     @Transactional  // 操作失败时回滚数据
     public UserVO updateUserById(Integer id, UserUpdateDTO userUpdateDTO) {
