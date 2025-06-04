@@ -87,9 +87,6 @@ public class UserServiceImpl implements UserService {
         User user = UserConverter.convertToUser(userCreateDTO);
         user.setName("新用户" + userCreateDTO.getPhone());
 
-        // 设置默认头像
-//        user.setImage("/user/userImage.jpg");
-
         // 保存用户信息
         userRepository.save(user);
 
