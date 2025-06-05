@@ -10,6 +10,7 @@ public class OrderConverter {
     public static OrderVO convertToOrderVO(OrderShopUserDTO orderShopUserDTO) {
         OrderVO orderVO = new OrderVO();
         orderVO.setId(orderShopUserDTO.getId());
+        orderVO.setShopId(orderShopUserDTO.getShopId());
         orderVO.setShopName(orderShopUserDTO.getShopName());
         orderVO.setUserName(orderShopUserDTO.getUserName());
         orderVO.setContent(orderShopUserDTO.getContent());

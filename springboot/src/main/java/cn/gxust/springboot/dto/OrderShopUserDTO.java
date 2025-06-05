@@ -2,6 +2,7 @@ package cn.gxust.springboot.dto;
 
 public class OrderShopUserDTO {
     private long id;
+    private int shopId;
     private String shopName;
     private String userName;
     private String content;
@@ -11,8 +12,9 @@ public class OrderShopUserDTO {
     private String phone;
     private String state;
 
-    public OrderShopUserDTO(long id, String shopName, String userName, String content, double price, String time, String addr, String phone, String state) {
+    public OrderShopUserDTO(long id, int shopId, String shopName, String userName, String content, double price, String time, String addr, String phone, String state) {
         this.id = id;
+        this.shopId = shopId;
         this.shopName = shopName;
         this.userName = userName;
         this.content = content;
@@ -29,6 +31,14 @@ public class OrderShopUserDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
     public String getShopName() {

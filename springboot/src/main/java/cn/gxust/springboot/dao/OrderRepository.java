@@ -11,7 +11,7 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT new cn.gxust.springboot.dto.OrderShopUserDTO(" +
-            "o.id, s.name, u.name, o.content, o.price, " +
+            "o.id, o.shopId, s.name, u.name, o.content, o.price, " +
             "o.time, o.addr, o.phone, o.state) " +
             "FROM Order o " +
             "JOIN Shop s ON o.shopId = s.id " +
@@ -20,7 +20,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     OrderShopUserDTO findOrderById(@Param("id") long id);
 
     @Query("SELECT new cn.gxust.springboot.dto.OrderShopUserDTO(" +
-            "o.id, s.name, u.name, o.content, o.price, " +
+            "o.id, o.shopId, s.name, u.name, o.content, o.price, " +
             "o.time, o.addr, o.phone, o.state) " +
             "FROM Order o " +
             "JOIN Shop s ON o.shopId = s.id " +
