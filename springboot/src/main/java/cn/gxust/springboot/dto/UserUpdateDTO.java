@@ -21,7 +21,6 @@ public class UserUpdateDTO {
     @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "生日格式为yyyy-MM-dd")
     private String birthday;
 
-    @NotBlank
     private String image;
 
     public String getName() {
